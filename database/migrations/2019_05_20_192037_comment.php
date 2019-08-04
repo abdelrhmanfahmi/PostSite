@@ -17,7 +17,7 @@ class Comment extends Migration
         $table->increments('commentId');
         $table->text('comment');
         $table->integer('idpost')->unsigned();
-        $table->foreign('idpost')->references('postId')->on('setpost')->onDelete('cascade');
+        $table->foreign('idpost')->references('postId')->on('setpost')->onDelete('cascade')->onUpdate('cascade');
         $table->timestamps();
       });
     }

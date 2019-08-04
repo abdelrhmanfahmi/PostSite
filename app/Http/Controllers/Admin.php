@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use App\POST;
 use App\Comment;
 use App\Student;
@@ -17,10 +18,11 @@ class Admin extends Controller
 
       return view('admin');
     }
+
     public function getPost(){
       //$remember = (request()->has('remember'))? true : false;
       if(auth()->guard('adminGuard')->attempt(['username' => request('name') , 'password' => request('pass')])){
-        return redirect('welcome/Admin');
+        return redirect('welcome/Admin/' . auth()->guard('adminGuard')->user()->id);
       }else{
         return back();
       }
@@ -29,13 +31,17 @@ class Admin extends Controller
     public function getuserPage(){
       return view('UsersPages');
     }
+   
     public function getPageUserPost(){
-      if(auth()->guard('studentGuard')->attempt(['Fname' => request('names') , 'password'  => request('pass')])){
-        return redirect('welcome/User/'. auth()->guard('studentGuard')->user()->id);
+
+       if(auth()->guard('studentGuard')->attempt(['username' => request('names') , 'password' => request('pass')])){
+        return redirect('welcome/User/' . auth()->guard('studentGuard')->user()->id);
       }else{
         return back();
       }
+
     }
+
 
     public function setPost(Request $request , $id){
 
@@ -85,4 +91,55 @@ class Admin extends Controller
       $upd->save();
       return response()->json(['msg'=>'success']);
     }
+
+    public function getDataStudent(Request $request , $id){
+      $get = Student::find($id);
+      $arr = array('get' => $get);
+      return view('AdminPage' , $arr);
+    }
+
+    public function DeleteUser(Request $request , $id){
+      $del = POST::find($id);
+      $del->delete();
+      return redirect('welcome/Admin/' . auth()->guard('adminGuard')->user()->id);
+    }
+
+    public function UpdateUser(Request $request , $id){
+      $upda = POST::find($id);
+      $upda->post = $request->input('NewPost');
+      $upda->save();
+      return redirect('welcome/Admin/' . auth()->guard('adminGuard')->user()->id);
+    }
+
+    public function getupdated(Request $request , $id){
+      $getso = POST::find($id);
+      $array = array('getso' => $getso);
+      return view('updatePost' , $array);
+    }
+
+    public function getDataComment(Request $request , $id){
+      $data = POST::find($id);
+      $arr = array('data' => $data);
+      return view('updateComment' , $arr);
+    }
+
+    public function DeleteComment(Request $request , $id){
+      $del = Comment::find($id);
+      $del->delete();
+      return redirect('welcome/Admin/' . auth()->guard('adminGuard')->user()->id); 
+    }
+
+    public function getsUpdatesComments(Request $request , $id){
+      $update = Comment::find($id);
+      $array = array('update' => $update);
+      return view('UPDATESComments' , $array);
+    }
+
+    public function updcomm(Request $request , $id){
+      $up = Comment::find($id);
+      $up->comment = $request->input('commentss');
+      $up->save();
+      return redirect('welcome/Admin/' . auth()->guard('adminGuard')->user()->id); 
+    }
+
 }

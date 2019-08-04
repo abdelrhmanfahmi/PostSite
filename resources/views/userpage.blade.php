@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<center><h1>welcome {{auth()->guard('studentGuard')->user()->Fname}}</h1></center>
+<center><h1>welcome {{auth()->guard('studentGuard')->user()->username}}</h1></center>
 
 <form action="" method="post" onsubmit="Post(this);return false;">
 

@@ -22,7 +22,7 @@ Route::group(['middleware' => 'guest'] , function(){
 });
 */
 
-Route::get('welcome/Admin' , function(){
+Route::get('welcome/Admin/{id}' , function(){
   //return 'Test Successed';
   return view('AdminPage');
 })->middleware('admins:adminGuard');
@@ -36,7 +36,7 @@ Route::get('Admin/Logout' , function(){
 });
 
 Route::get('welcome/User/{id}' , function(){
-  //return 'Test Successed For Users';
+  //return 'Test Successed';
   return view('userpage');
 })->middleware('student:studentGuard');
 
@@ -59,3 +59,16 @@ Route::get('/comm/{id}' , 'Admin@addComment');
 Route::get('/update/into/{id}' , 'Admin@update');
 Route::post('/update/{id}' , 'Admin@update');
 
+Route::get('welcome/Admin/{id}' , 'Admin@getDataStudent');
+Route::post('welcome/Admin/{id}' , 'Admin@getDataStudent');
+
+Route::get('/deleteuser/{id}' , 'Admin@DeleteUser');
+
+Route::get('/updateuser/{id}' , 'Admin@getupdated');
+Route::post('/updateuser/{id}' , 'Admin@UpdateUser');
+
+Route::get('/Comments/{id}' , 'Admin@getDataComment');
+Route::get('/deletecomment/{id}' , 'Admin@DeleteComment');
+
+Route::get('/updatecomment/{id}' , 'Admin@getsUpdatesComments');
+Route::post('/updatecomment/{id}' , 'Admin@updcomm');

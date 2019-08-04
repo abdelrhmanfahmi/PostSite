@@ -17,7 +17,7 @@ class Setpost extends Migration
         $table->increments('postId');
         $table->text('post');
         $table->integer('student_id')->unsigned();
-        $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+        $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
         $table->timestamps();
       });
     }
